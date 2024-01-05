@@ -16,7 +16,7 @@
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 </head>
@@ -48,49 +48,45 @@
                 </thead>
                 <tbody>
                     <?php foreach ($data_mahasiswa as $mahasiswa): ?>
-                    <tr>
-                        <td>
-                            <?= $mahasiswa['nama_lengkap'] ?>
-                        </td>
-                        <td>
-                            <?= $mahasiswa['npm'] ?>
-                        </td>
-                        <td>
-                            <?= $mahasiswa['kelas'] ?>
-                        </td>
-                        <td>
-                            <?= $mahasiswa['jurusan'] ?>
-                        </td>
-                        <td>
-                            <?= $mahasiswa['no_hp'] ?>
-                        </td>
-                        <td>
-                            <button type="button" id="<?= $mahasiswa['id']; ?>" class="ubahButton btn btn-primary"
-                                data-bs-toggle="modal" data-bs-target="#ubahModal">
-                                <i class="bi bi-pencil-fill"></i>
-                            </button>
-                            <button type="button" id="<?= $mahasiswa['id']; ?>" class="hapusButton btn btn-danger"
-                                data-bs-toggle="modal" data-bs-target="#hapusModal">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <?= $mahasiswa['nama_lengkap'] ?>
+                            </td>
+                            <td>
+                                <?= $mahasiswa['npm'] ?>
+                            </td>
+                            <td>
+                                <?= $mahasiswa['kelas'] ?>
+                            </td>
+                            <td>
+                                <?= $mahasiswa['jurusan'] ?>
+                            </td>
+                            <td>
+                                <?= $mahasiswa['no_hp'] ?>
+                            </td>
+                            <td>
+                                <button type="button" id="<?= $mahasiswa['id']; ?>" class="ubahButton btn btn-primary"
+                                    data-bs-toggle="modal" data-bs-target="#ubahModal">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <button type="button" id="<?= $mahasiswa['id']; ?>" class="hapusButton btn btn-danger"
+                                    data-bs-toggle="modal" data-bs-target="#hapusModal">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>
                     <?php endforeach ?>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Button Ubah -->
-    <a href="<?= base_url('ubah_data_mahasiswa') . '/' . $mahasiswa['id'] ?>" class="btn btn-primary"><i
-            class="bi bi-pencil-fill"></i></a>
-
     <!-- Tambah Modal -->
-    <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+    <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-4" id="tambahModalLabel">Tambah Data Mahasiswa</h1>
+                    <h1 class="modal-title fs-4">Tambah Data Mahasiswa</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -135,36 +131,43 @@
     </div>
 
     <!-- Ubah Modal -->
-    <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="ubahModalLabel" aria-hidden="true">
+    <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="ubahModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="ubahModalLabel">Ubah Data Mahasiswa</h1>
+                    <h1 class="modal-title fs-4">Ubah Data Mahasiswa</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="<?= base_url('proses_tambah_mahasiswa') ?>" method="POST">
-                        <div class="mb-3">
-                            <?= csrf_field(); ?>
-                            <label for="exampleFormControlInput1" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap"
-                                placeholder="Nama Lengkap">
+                    <form id="ubahMahasiswa" class="needs-validation" action="<?= base_url('ubah_data_mahasiswa') ?>"
+                        method="POST" novalidate>
+                        <?= csrf_field(); ?>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text fw-semibold col-2" style="padding-right: 130px;">Nama
+                                Lengkap</span>
+                            <input type="text" class="form-control form-control-lg" id="nama_lengkap"
+                                name="nama_lengkap" maxlength="50" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">NPM</label>
-                            <input type="text" class="form-control" id="npm" name="npm" placeholder="NPM">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text fw-semibold col-2" style="padding-right: 130px;">NPM</span>
+                            <input type="text" class="form-control form-control-lg" id="npm" name="npm"
+                                value="<?= old('npm'); ?>" maxlength="8" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Kelas</label>
-                            <input type="text" class="form-control" id="kelas" name="kelas" placeholder="Kelas">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text fw-semibold col-2" style="padding-right: 130px;">Kelas</span>
+                            <input type="text" class="form-control form-control-lg" id="kelas" name="kelas"
+                                value="<?= old('kelas'); ?>" maxlength="5" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Jurusan</label>
-                            <input type="text" class="form-control" id="jurusan" name="jurusan" placeholder="Jurusan">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text fw-semibold col-2"
+                                style="padding-right: 130px;">Jurusan</span>
+                            <input type="text" class="form-control form-control-lg" id="jurusan" name="jurusan"
+                                value="<?= old('jurusan'); ?>" maxlength="50" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">No. HP</label>
-                            <input type="text" class="form-control" id="no_hp" name="no_hp" placeholder="No. HP">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text fw-semibold col-2" style="padding-right: 130px;">No. HP</span>
+                            <input type="text" class="form-control form-control-lg" id="no_hp" name="no_hp"
+                                value="<?= old('no_hp'); ?>" maxlength="13" required>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -177,12 +180,11 @@
     </div>
 
     <!-- Hapus Modal -->
-
-    <div class="modal fade" id="hapusModal" tabindex="-1" aria-labelledby="hapusModalLabel" aria-hidden="true">
+    <div class="modal fade" id="hapusModal" tabindex="-1" aria-labelledby="hapusModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="hapusModalLabel">Hapus Data</h1>
+                    <h1 class="modal-title fs-5">Hapus Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -201,82 +203,97 @@
 
     <!-- Alert Berhasil Tambah -->
     <?php if (session()->getFlashdata("berhasil_tambah")): ?>
-    <div class="alert-berhasil position-absolute bottom-0 end-0 mb-3 me-3">
-        <div class="alert alert-success alert-dismissible">
-            Data berhasil disimpan!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert-berhasil position-absolute bottom-0 end-0 mb-3 me-3">
+            <div class="alert alert-success alert-dismissible">
+                <?= session()->getFlashdata("berhasil_tambah"); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
 
     <!-- Alert Gagal Tambah -->
     <?php if (session('gagal_tambah')): ?>
-    <div class="alert-berhasil position-absolute bottom-0 end-0 mb-3 me-3">
-        <div class="alert alert-danger alert-dismissible">
-            Data gagal ditambahkan!
-            <ul>
-                <?php foreach (session('gagal_tambah') as $error): ?>
-                <li>
-                    <?= esc($error) ?>
-                </li>
-                <?php endforeach ?>
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert-gagal position-absolute bottom-0 end-0 mb-3 me-3">
+            <div class="alert alert-danger alert-dismissible">
+                Data gagal ditambahkan!
+                <ul>
+                    <?php foreach (session('gagal_tambah') as $error): ?>
+                        <li>
+                            <?= esc($error) ?>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
 
     <!-- Alert Berhasil Hapus -->
     <?php if (session()->getFlashdata("berhasil_hapus")): ?>
-    <div class="alert-berhasil position-absolute bottom-0 end-0 mb-3 me-3">
-        <div class="alert alert-success alert-dismissible">
-            Data berhasil dihapus!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert-berhasil position-absolute bottom-0 end-0 mb-3 me-3">
+            <div class="alert alert-success alert-dismissible">
+                <?= session()->getFlashdata("berhasil_hapus"); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
 
     <script>
-    $(document).ready(function() {
-        //Data Table
-        $('#mahasiswaTable').DataTable({
-            columns: [null,
-                null,
-                null,
-                null,
-                {
-                    orderable: false
-                },
-                {
-                    orderable: false
-                }
-            ]
+        $(document).ready(function () {
+            $('#mahasiswaTable').DataTable({
+                columns: [null,
+                    null,
+                    null,
+                    null,
+                    {
+                        orderable: false
+                    },
+                    {
+                        orderable: false
+                    }
+                ]
+            });
+
+            $('.hapusButton').click(function () {
+                var idMahasiswa = $(this).attr('id');
+                var baseUrl = "<?= base_url(); ?>";
+                $('.hapus').attr('action', baseUrl + idMahasiswa);
+            });
+
+            $("#ubahModal").on("show.bs.modal", function (event) {
+                var button = $(event.relatedTarget);
+                var row = button.closest("tr");
+                var nama = row.find("td:nth-child(1)").text();
+                var npm = row.find("td:nth-child(2)").text();
+                var kelas = row.find("td:nth-child(3)").text();
+                var jurusan = row.find("td:nth-child(4)").text();
+                var noHp = row.find("td:nth-child(5)").text();
+
+                var modal = $(this);
+                modal.find("#nama_lengkap").val(nama.trim());
+                modal.find("#npm").val(npm.trim());
+                modal.find("#kelas").val(kelas.trim());
+                modal.find("#jurusan").val(jurusan.trim());
+                modal.find("#no_hp").val(noHp.trim());
+            });
         });
 
-        //Hapus Button
-        $('.hapusButton').click(function() {
-            var idMahasiswa = $('.hapusButton').attr('id');
-            $("form.hapus").attr("action", "<?= base_url('') . '/' . $mahasiswa['id'] ?>")
-        });
-    });
+        (() => {
+            'use strict'
 
-    //Bootstrap Validation  
-    (() => {
-        'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
 
-        const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
 
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })();
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })();
     </script>
 </body>
 
