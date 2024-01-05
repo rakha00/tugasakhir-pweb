@@ -37,24 +37,42 @@ class Mahasiswa extends BaseController
         ) {
             $validation = \Config\Services::validation();
             $errors = $validation->getErrors();
-            return redirect()->back()->withInput()->with('validation', $errors);
+            return redirect()->back()->withInput()->with('gagal_tambah', $errors);
         }
 
         $this->mahasiswaModel->insert($this->request->getPost());
-        session()->setFlashdata('berhasil', 'Data berhasil ditambahkan.');
-        return redirect()->to(base_url());
+        session()->setFlashdata('berhasil_tambah', 'Data berhasil ditambahkan!');
+        return redirect()->to('/');
     }
 
-    public function edit_data_mahasiswa($id = false)
+    public function ubah_data_mahasiswa($id = false)
     {
+        if (
+            !$this->validate([
+                'npm' => [
+                    'rules' => 'is_unique[mahasiswa.npm]',
+                    'errors' => [
+                        'is_unique' => 'NPM sudah terdaftar',
+                    ]
+                ],
+                'no_hp' => [
+                    'rules' => 'required|is_unique[mahasiswa.no_hp]',
+                    'errors' => [
+                        'is_unique' => 'No HP sudah terdaftar'
+                    ]
+                ]
+            ])
+        ) {
+            $validation = \Config\Services::validation();
+            $errors = $validation->getErrors();
+            return redirect()->back()->withInput()->with('berhasil_ubah', $errors);
+        }
+
         $mahasiswa_model = new MahasiswaModel();
         $data_mahasiswa = $mahasiswa_model->find($id);
         return view('edit_data_mahasiswa', ['data_mahasiswa' => $data_mahasiswa]);
-    }
 
-    public function proses_edit_mahasiswa()
-    {
-        $mahasiswa_model = new MahasiswaModel();
+        //
         try {
             $mahasiswa_model->update($this->request->getPost('id_mahasiswa'), $this->request->getPost());
             return redirect()->to(base_url(''));
@@ -72,6 +90,7 @@ class Mahasiswa extends BaseController
     public function hapus_data_mahasiswa($id = false)
     {
         $this->mahasiswaModel->delete($id);
-        return redirect()->to(base_url());
+        session()->setFlashdata('berhasil_hapus', 'Data berhasil dihapus!');
+        return redirect()->to('/');
     }
 }
