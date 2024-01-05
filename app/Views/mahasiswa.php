@@ -65,13 +65,14 @@
                                 <?= $mahasiswa['no_hp'] ?>
                             </td>
                             <td>
-
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#editModal">
                                     <i class="bi bi-pencil-fill"></i>
                                 </button>
-                                <a href="<?= base_url('delete_data_mahasiswa') . '/' . $mahasiswa['id'] ?>"
-                                    class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                                <button type="button" id="<?= $mahasiswa['id']; ?>" class="hapusButton btn btn-danger"
+                                    data-bs-toggle="modal" data-bs-target="#hapusModal">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -126,7 +127,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary" id="liveAlertBtn">Tambah Data</button>
+                    <button type="submit" class="btn btn-primary">Tambah Data</button>
                 </div>
                 </form>
             </div>
@@ -175,6 +176,29 @@
         </div>
     </div>
 
+    <!-- Hapus Modal -->
+
+    <div class="modal fade" id="hapusModal" tabindex="-1" aria-labelledby="hapusModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="hapusModalLabel">Hapus Data</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah anda yakin ingin menghapus data mahasiswa ini?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <form action="" method="post" class="hapus d-inline">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Alert Berhasil -->
     <?php if (session()->getFlashdata("berhasil")): ?>
         <div class="alert-berhasil position-absolute bottom-0 end-0 mb-3 me-3">
@@ -203,8 +227,8 @@
     <?php endif; ?>
 
     <script>
-        //Data Table
         $(document).ready(function () {
+            //Data Table
             $('#mahasiswaTable').DataTable({
                 columns: [null,
                     null,
@@ -217,6 +241,12 @@
                         orderable: false
                     }
                 ]
+            });
+
+            //Hapus Button
+            $('.hapusButton').click(function () {
+                var idMahasiswa = $('.hapusButton').attr('id');
+                $("form.hapus").attr("action", "<?= base_url('') . '/' . $mahasiswa['id'] ?>")
             });
         });
 
