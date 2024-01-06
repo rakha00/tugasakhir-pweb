@@ -37,28 +37,47 @@ class Mahasiswa extends BaseController
         ) {
             $validation = \Config\Services::validation();
             $errors = $validation->getErrors();
-            return redirect()->to(base_url())->withInput()->with('gagal_tambah', $errors);
+            session()->setFlashdata('gagal', 'Data gagal ditambahkan!');
+            return redirect()->to(base_url())->withInput()->with('error', $errors);
         }
         $this->mahasiswaModel->insert($this->request->getPost());
-        session()->setFlashdata('berhasil_tambah', 'Data berhasil ditambahkan!');
+        session()->setFlashdata('berhasil', 'Data berhasil ditambahkan!');
         return redirect()->to(base_url());
     }
 
-    public function ubah_data_mahasiswa($id = false)
+    public function ubah_data_mahasiswa($id)
     {
+        if (
+            !$this->validate([
+                'npm' => [
+                    'rules' => 'is_unique[mahasiswa.npm]',
+                    'errors' => [
+                        'is_unique' => 'NPM sudah terdaftar',
+                    ]
+                ],
+                'no_hp' => [
+                    'rules' => 'required|is_unique[mahasiswa.no_hp]',
+                    'errors' => [
+                        'is_unique' => 'No HP sudah terdaftar'
+                    ]
+                ]
+            ])
+        ) {
+            $validation = \Config\Services::validation();
+            $errors = $validation->getErrors();
+            session()->setFlashdata('gagal', 'Data gagal diubah!');
+            return redirect()->to(base_url())->withInput()->with('error', $errors);
+        }
 
-        $mahasiswa_model = new MahasiswaModel();
-        $data_mahasiswa = $mahasiswa_model->find($id);
-        return view('edit_data_mahasiswa', ['data_mahasiswa' => $data_mahasiswa]);
-
-        $this->mahasiswa_model->update($this->request->getPost('id_mahasiswa'), $this->request->getPost());
-        return redirect()->to(base_url(''));
+        $this->mahasiswaModel->save($this->request->getPost());
+        session()->setFlashdata('berhasil', 'Data berhasil diubah!');
+        return redirect()->to(base_url());
     }
 
-    public function hapus_data_mahasiswa($id = false)
+    public function hapus_data_mahasiswa($id)
     {
         $this->mahasiswaModel->delete($id);
-        session()->setFlashdata('berhasil_hapus', 'Data berhasil dihapus!');
+        session()->setFlashdata('berhasil', 'Data berhasil dihapus!');
         return redirect()->to(base_url());
     }
 }

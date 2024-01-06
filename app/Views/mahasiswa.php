@@ -139,9 +139,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="ubahMahasiswa" class="needs-validation" action="<?= base_url('ubah_data_mahasiswa') ?>"
-                        method="POST" novalidate>
+                    <form id="ubahMahasiswa" class="needs-validation" action="" method="POST" novalidate>
                         <?= csrf_field(); ?>
+                        <input type="hidden" class="form-control" id="id" name="id" value="">
                         <div class="input-group mb-3">
                             <span class="input-group-text fw-semibold col-2" style="padding-right: 130px;">Nama
                                 Lengkap</span>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text fw-semibold col-2" style="padding-right: 130px;">NPM</span>
-                            <input type="text" class="form-control form-control-lg" id="npm" name="npm"
+                            <input type="number" class="form-control form-control-lg" id="npm" name="npm"
                                 value="<?= old('npm'); ?>" maxlength="8" required>
                         </div>
                         <div class="input-group mb-3">
@@ -192,7 +192,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <form action="" method="post" class="hapus d-inline">
+                    <form id="hapusMahasiswa" action="" method="post" class="d-inline">
                         <input type="hidden" name="_method" value="delete">
                         <button type="submit" class="btn btn-danger">Hapus</button>
                     </form>
@@ -201,38 +201,28 @@
         </div>
     </div>
 
-    <!-- Alert Berhasil Tambah -->
-    <?php if (session()->getFlashdata("berhasil_tambah")): ?>
+    <!-- Alert Berhasil -->
+    <?php if (session()->getFlashdata("berhasil")): ?>
         <div class="alert-berhasil position-absolute bottom-0 end-0 mb-3 me-3">
             <div class="alert alert-success alert-dismissible">
-                <?= session()->getFlashdata("berhasil_tambah"); ?>
+                <?= session()->getFlashdata("berhasil"); ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
     <?php endif; ?>
 
-    <!-- Alert Gagal Tambah -->
-    <?php if (session('gagal_tambah')): ?>
+    <!-- Alert Gagal -->
+    <?php if (session()->getFlashdata("gagal")): ?>
         <div class="alert-gagal position-absolute bottom-0 end-0 mb-3 me-3">
             <div class="alert alert-danger alert-dismissible">
-                Data gagal ditambahkan!
+                <?= session()->getFlashdata("gagal"); ?>
                 <ul>
-                    <?php foreach (session('gagal_tambah') as $error): ?>
+                    <?php foreach (session('error') as $error): ?>
                         <li>
                             <?= esc($error) ?>
                         </li>
                     <?php endforeach ?>
                 </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-    <?php endif; ?>
-
-    <!-- Alert Berhasil Hapus -->
-    <?php if (session()->getFlashdata("berhasil_hapus")): ?>
-        <div class="alert-berhasil position-absolute bottom-0 end-0 mb-3 me-3">
-            <div class="alert alert-success alert-dismissible">
-                <?= session()->getFlashdata("berhasil_hapus"); ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
@@ -254,10 +244,11 @@
                 ]
             });
 
-            $('.hapusButton').click(function () {
+            $('.ubahButton').click(function () {
                 var idMahasiswa = $(this).attr('id');
                 var baseUrl = "<?= base_url(); ?>";
-                $('.hapus').attr('action', baseUrl + idMahasiswa);
+                $('#ubahMahasiswa').attr('action', baseUrl + "ubah_data_mahasiswa/" + idMahasiswa);
+                $('#id').val(idMahasiswa);
             });
 
             $("#ubahModal").on("show.bs.modal", function (event) {
@@ -276,7 +267,14 @@
                 modal.find("#jurusan").val(jurusan.trim());
                 modal.find("#no_hp").val(noHp.trim());
             });
+
+            $('.hapusButton').click(function () {
+                var idMahasiswa = $(this).attr('id');
+                var baseUrl = "<?= base_url(); ?>";
+                $('#hapusMahasiswa').attr('action', baseUrl + idMahasiswa);
+            });
         });
+
 
         (() => {
             'use strict'
