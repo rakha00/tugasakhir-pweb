@@ -50,13 +50,13 @@ class Mahasiswa extends BaseController
         if (
             !$this->validate([
                 'npm' => [
-                    'rules' => 'is_unique[mahasiswa.npm]',
+                    'rules' => 'is_unique[mahasiswa.npm,id,' . $id . ']',
                     'errors' => [
                         'is_unique' => 'NPM sudah terdaftar',
                     ]
                 ],
                 'no_hp' => [
-                    'rules' => 'required|is_unique[mahasiswa.no_hp]',
+                    'rules' => 'required|is_unique[mahasiswa.no_hp,id,' . $id . ']',
                     'errors' => [
                         'is_unique' => 'No HP sudah terdaftar'
                     ]
