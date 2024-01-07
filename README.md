@@ -1,18 +1,9 @@
-# Aplikasi CRUD Data Mahasiswa
+# Tugas Akhir Mata Kuliah Pemrograman WEB Kelompok 2
 
 ## Setup
 
 Copy `env` to `.env` and tailor for your app, specifically the baseURL
 and any database settings.
-
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
 
 ## Server Requirements
 
